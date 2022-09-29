@@ -5,7 +5,7 @@
 
 <script src="{{asset('js/bootstrap.js')}}"></script>
 <script src="{{asset('guider/js/custom.js')}}"></script>
-
+<script src="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.js"></script>
 <!-- For stripe -->
 <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 <!-- Toaster JS-->
@@ -53,6 +53,18 @@
                 @if(Session::has('error'))
             toastr["error"]('{{ Session::get('error') }}');
         @endif
+    });
+
+    $(document).ready(function(){
+
+        var multipleCancelButton = new Choices('#choices-multiple-remove-button', {
+            removeItemButton: true,
+            // maxItemCount:5,
+            // searchResultLimit:5,
+            // renderChoiceLimit:5
+        });
+
+
     });
 </script>
 @stack('js')

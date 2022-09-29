@@ -58,12 +58,18 @@ Route::group(['middleware' => ['AllowCorsMiddleware']], function () {
 
     /**-------------------Search Api starts----------------------------------------------------------------**/
     Route::post('/search/{id}', [ApiController::class, 'search']);
+    Route::post('/search-filter', [ApiController::class, 'search_filter']);
     /**-------------------Search Api ends------------------------------------------------------------------**/
 
     /**-------------------Reviews Api Integration starts--------------------------------------------------**/
     Route::get('/reviews', [ApiController::class, 'reviews']);
     Route::post('/submit-review', [ApiController::class, 'submit_review']);
     /**-------------------Reviews Api Integration ends----------------------------------------------------**/
+
+    /**-------------------Get Activities Api starts------------------------------------------------**/
+    Route::get('/all-activities/', [ApiController::class, 'all_acitivities'])->name('all_acitivities');
+    Route::get('/activities/{id}', [ApiController::class, 'acitivities'])->name('acitivities');
+    /**-------------------Get Activities Api ends--------------------------------------------------**/
 
     /**-------------------Get Favored Sceneries Api starts------------------------------------------------**/
     Route::get('/favored-sceneries', [ApiController::class, 'favored_sceneries'])->name('favoredSceneries');

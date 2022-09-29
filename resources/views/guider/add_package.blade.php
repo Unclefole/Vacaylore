@@ -39,8 +39,9 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Description</label>
-                                        <input type="text" name="description" class="form-control"
-                                               placeholder="Description" required>
+                                        <textarea  class="form-control" id="w3review" name="description" rows="4" cols="50" style="height: 150px;"></textarea>
+{{--                                        <input type="text" name="description" class="form-control"--}}
+{{--                                               placeholder="Description" required>--}}
                                     </div>
                                     <div class="form-group">
                                         <label>Image</label>
@@ -88,24 +89,20 @@
                                             @endforeach
                                         </select>
                                     </div>
-{{--                                    <div class="form-group">--}}
-{{--                                        <label>Activities</label>--}}
+                                    <div class="form-group">
+                                        <label>Activities</label>
 {{--                                        <select class="form-control js-example-basic-single" multiple="multiple" name="activities[]" required>--}}
 {{--                                                @foreach ($activities as $activity)--}}
 {{--                                                <option value="{{$activity->id}}">{{$activity->name}}</option>--}}
 {{--                                            @endforeach--}}
 {{--                                        </select>--}}
-{{--                                    </div>--}}
-                                    <!-- <div class="form-group">
-                                                          <label>Phone number</label>
-                                                            <select class="form-control" id="user_role" name="user_role">
-                                                                <option selected="" hidden="" disabled="">Select Role</option>
-                                                                <option value="1">Admin</option>
-                                                                <option value="2">User</option>
-                                                                <option value="3">Vendor</option>
-                                                                <option value="4">Customer</option>
-                                                            </select>
-                                                       </div>  -->
+                                        <select class="slelct_text form-control" id="choices-multiple-remove-button" placeholder="Select Activities" name="activities[]" multiple readonly >
+                                            @foreach ($activities as $activity)
+                                                <option value="{{$activity->id}}">{{$activity->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
                                     <div class="form-group">
                                         <label>Status</label>
 

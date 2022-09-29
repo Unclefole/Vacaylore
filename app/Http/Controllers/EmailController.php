@@ -6,7 +6,7 @@ use App\Mail\DeleteAccountMail;
 use Illuminate\Http\Request;
 use App\Mail\MyTestMail;
 use App\Mail\ForgotPassword;
-use App\Mail\ContactMail;
+use App\Mail\OrderCompletedMail;
 use App\Models\User;
 
 class EmailController extends Controller
@@ -22,6 +22,14 @@ class EmailController extends Controller
             // \Mail::to('devpetyr911@gmail.com')->send(new MyTestMail($user));
         } else {
             return back()->with('User Not Found');
+        }
+    }
+
+    public function orderCompletedEmail($details)
+    {
+        if ($details) {
+            \Mail::to($details['user_email'])->send(new OrderCompletedMail($details));
+            return true;
         }
     }
 
@@ -51,4 +59,6 @@ class EmailController extends Controller
             return true;
         }
     }
+
+
 }

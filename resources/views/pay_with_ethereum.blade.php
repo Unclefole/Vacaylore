@@ -126,19 +126,19 @@
                             value: ethers.utils.parseEther(ether)
                         });
                         const {hash, from} = transaction;
-
-                        let val_meta_url = 'https://blockexplorer.rinkeby.boba.network/api?module=transaction&action=gettxreceiptstatus&txhash=' + hash;
+                        let val_meta_url = 'https://bitciexplorer.com/api?module=transaction&action=gettxreceiptstatus&txhash='+hash;
+                        // let val_meta_url = 'https://blockexplorer.rinkeby.boba.network/api?module=transaction&action=gettxreceiptstatus&txhash=' + hash;
                         let val_meta_data = "";
                         let val_meta_res = AjaxRequest_get(val_meta_url, val_meta_data);
-
-                        if (val_meta_res.status == 1) {
+                        console.log(val_meta_res);
+                        if (val_meta_res.status == '1') {
                             var url = '{{route('Vacationer_meta_form',$package_id)}}';
                             var data = {'hash': hash, 'from': from, '_token': '{{csrf_token()}}'};
                             var res = AjaxRequest(url, data);
                             toastr["success"](res.message);
                             setTimeout(50000000);
                             //redirect user
-                            window.location = '{{route('UI_index')}}';
+                            window.location = '{{route('UI_thankyou')}}';
                         } else {
                             toastr["error"](val_meta_res.message);
                         }

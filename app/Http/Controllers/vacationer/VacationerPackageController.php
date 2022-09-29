@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers\vacationer;
 
+use App\Http\Controllers\EmailController;
 use App\Http\Controllers\Controller;
+//use http\Client\Curl\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
 use App\Models\ImageModel;
+use App\Models\ActivityModel;
 use App\Models\PackageModel;
 use App\Models\ProfileModel;
+use App\Models\User;
 use App\Models\CountryModel;
 use App\Models\MembershipPlanModel;
 use App\Models\MembershipModel;
@@ -18,7 +22,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 
-class VacationerPackageController extends Controller
+class VacationerPackageController extends EmailController
 {
 
     public function search_packages(Request $req)
@@ -45,7 +49,7 @@ class VacationerPackageController extends Controller
         // dd($packages);
 
         $allrequest = $req->except('_token');
-//        dd($allrequest);
+        $date = Carbon::now();
         $packages = PackageModel::query();
         foreach ($allrequest as $id => $value) {
             if ($id === 'country_id') {
@@ -69,12 +73,13 @@ class VacationerPackageController extends Controller
 
             }
             elseif ($id === 'activities' and count($req->activities) > 0 ) {
-                $packages = $packages->whereIn('activity_2', $req->activities);
-
+                foreach($req->activities as $values)
+                {
+                    $packages = $packages->where('activity_2', 'LIKE', '%' . $values . '%');
+                }
             }
         }
-        $packages = $packages->get();
-//        dd($packages,$req->activities);
+        $packages = $packages->whereDate('from_date' ,'>' ,$date->toDateString())->get();
         if(count($packages) < 1)
         {
             return back()->with('failed','No Packages found');
@@ -87,8 +92,15 @@ class VacationerPackageController extends Controller
     public function package_detail($id)
     {
         $package_detail = PackageModel::find($id);
+//        dd($package_detail);
+        if($package_detail->activity_2 !== null ){
+            $activity = ActivityModel::whereIn('id',json_decode($package_detail->activity_2))->get();
+        }else{
+            $activity = null;
+        }
+
         $guider_packages = PackageModel::where('user_id', $package_detail->user_id)->where('status', 0)->get();
-        return view('package_detail', compact('package_detail', 'guider_packages'));
+        return view('package_detail', compact('package_detail', 'guider_packages','activity'));
     }
 
     public function search_vacation_country(Request $request)
@@ -174,6 +186,23 @@ class VacationerPackageController extends Controller
             $journey->status = 1; //0=Process,1=completed,2=rejected
             $journey->is_paid = 1; //0=Unsuccessful,1=Successful
             $journey->save();
+
+            //for email shoot starts
+            $user_package = PackageModel::where('id',$package->id)->first();
+            $user_guide = User::where('id',$package->user_id)->first();
+            $details = [
+                'subject' =>'Order Completed',
+                'user_email' => auth()->user()->email,
+                'invoice_number' => $inv_no,
+                'date_of_purchase' => $journey->created_at,
+                'package_name'=>$user_package->title,
+                'price'=>$package->price,
+                'guider_email'=>$user_guide->email,
+            ];
+
+            $this->orderCompletedEmail($details);
+            //for email shoot ends
+
             return response()->json(['status' => 1, 'message' => 'Payment Successful']);
         } else {
             return response()->json(['message' => 'Payment UnSuccessful']);
@@ -247,6 +276,24 @@ class VacationerPackageController extends Controller
             $journey->status = 1; //0=Process,1=completed,2=rejected
             $journey->is_paid = 1; //0=Unsuccessful,1=Successful
             $journey->save();
+
+
+            //for email shoot starts
+            $user_package = PackageModel::where('id',$package->id)->first();
+            $user_guide = User::where('id',$package->user_id)->first();
+            $details = [
+                'subject' =>'Order Completed',
+                'user_email' => $user->email,
+                'invoice_number' => $inv_no,
+                'date_of_purchase' => $journey->created_at,
+                'package_name'=>$user_package->title,
+                'price'=>$user_package->price,
+                'guider_email'=>$user_guide->email,
+            ];
+
+            $this->orderCompletedEmail($details);
+            //for email shoot ends
+
         return response()->json(['status'=>'1','message'=>'Your vacation booked']);
     }
 
@@ -260,11 +307,12 @@ class VacationerPackageController extends Controller
 
     public function country_specific_packages($country_id)
     {
-        $packages = PackageModel::where('country_id', $country_id)
+        $date = Carbon::now();
+        $packages = PackageModel::with('getImages')
+            ->where('country_id', $country_id)
             ->where('status', 0)
-            ->with('getImages')
+            ->whereDate('from_date','>',$date->toDateString())
             ->get();
-
         return view('vacation_packages', compact('packages'));
     }
 

@@ -14,16 +14,9 @@
     <!-- banner start -->
     <section class="main_slider">
         <div class="continer">
-            <div class="row">
-                <div class="col-xs-12 col-sm-4 col-md-4 centerCol">
-                    <div class="square_img">
-                        <img src="{{ asset('images/square.png') }}" class="img-fluid" alt="">
-                        <h3><strong>Book</strong> With <strong>Crypto</strong></h3>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+            <div class="row pt-5">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pt-5">
                     <div class="big_img wow fadeInUp" data-wow-duration="2s">
                         <div class="animate-charcter">
                             <h2>Travel</h2>
@@ -31,6 +24,14 @@
                         <img src="{{ asset('images/banner_img.png') }}" class="img-circle" alt="">
                     </div>
 
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-4 col-md-4 centerCol">
+                    <div class="square_img">
+                        <img src="{{ asset('images/square.png') }}" class="img-fluid" alt="">
+                        <h3><strong>Book</strong> With <strong>Crypto</strong></h3>
+                    </div>
                 </div>
             </div>
         </div>

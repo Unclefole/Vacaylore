@@ -7,7 +7,7 @@
 <link href="{{asset('guider/css/all.css')}}" rel="stylesheet">
 <link href="{{asset('guider/css/dashboard-style.css')}}" rel="stylesheet">
 <link href="{{asset('guider/css/custom.css')}}" rel="stylesheet">
-
+<link rel="stylesheet" href="{{asset('css/choices.min.css')}}">
 
 <!-- ================================== -->
 <!-- Toaster CSS-->

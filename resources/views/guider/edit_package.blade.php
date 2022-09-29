@@ -96,25 +96,14 @@
 {{--                                <option {{ 'Tropical Rain forests' == $package->activity ? 'selected' : ''}} value="Tropical Rain forests">Tropical Rain forests</option>--}}
 {{--                            </select>--}}
                         </div>
-{{--                          <div class="form-group">--}}
-{{--                              <label>Activities</label>--}}
-{{--                              @dd($activities, $package->activity_2)--}}
-{{--                              <select class="form-control js-example-basic-single" multiple="multiple" name="activities[]" required>--}}
-{{--                                  @foreach ($activities as $key=> $activity)--}}
-{{--                                      <option value="{{$activity->id}}" {{ $activity->id === (int)$package->activity_2[$key] ? 'selected' : ''}}  >{{$activity->name}}</option>--}}
-{{--                                  @endforeach--}}
-{{--                              </select>--}}
-{{--                          </div>--}}
-                       <!-- <div class="form-group">
-                          <label>Phone number</label>
-                            <select class="form-control" id="user_role" name="user_role">
-                                <option selected="" hidden="" disabled="">Select Role</option>
-                                <option value="1">Admin</option>
-                                <option value="2">User</option>
-                                <option value="3">Vendor</option>
-                                <option value="4">Customer</option>
-                            </select>
-                       </div>  -->
+                          <div class="form-group">
+                              <label>Activities</label>
+                              <select class="slelct_text form-control" id="choices-multiple-remove-button" placeholder="Select Activities" name="activities[]" multiple readonly >
+                                  @foreach ($activities as $key=> $activity)
+                                      <option {{ in_array($activity->id, json_decode($package->activity_2)) ? 'selected' : ''}} value="{{$activity->id}}">{{$activity->name}}</option>
+                                  @endforeach
+                              </select>
+                          </div>
                         <div class="form-group">
                          <label>Status</label>
 

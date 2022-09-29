@@ -34,4 +34,5 @@ class PackageModel extends Model
     {
         return $this->hasMany('App\Models\JourneysModel','package_id');
     }
+    
 }

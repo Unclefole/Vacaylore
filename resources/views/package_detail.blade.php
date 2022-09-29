@@ -284,12 +284,19 @@
                                 <p>Title:   {{$package_detail->title}}</p>
                                 <p>Price:   ${{$package_detail->price}}</p>
                                 <p>Guider:  {{$package_detail->getUser->username}}</p>
+                                <p>Activities:
+                                @if($activity !== null)
+                                    @foreach($activity as $value)  {{$value->name}}, @endforeach
+                                @else
+                                    -
+                                @endif
+                                </p>
                                 <p>Description:     {{$package_detail->description}}</p>
                                 <hr>
                                 <h5>Style</h5>
                                 <strong>Minimalist</strong>
                                 <a href="{{route('Vacationer_stripe_form', $package_detail->id)}}">Book Now With
-                                    Visa</a>
+                                    Debit/Credit card</a>
                                 <a href="{{route('UI_pay_with_meta', $package_detail->id)}}">Book Now With Crypto</a>
                             </div>
 

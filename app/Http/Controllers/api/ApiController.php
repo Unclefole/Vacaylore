@@ -206,6 +206,113 @@ class ApiController extends EmailController
         }
     }
 
+    public function search_filter(Request $request)
+    {
+        $rules = array(
+            'country_id'=>['required'],
+//            'from_date' => ['date'],
+//            'end_date' => ['date'],
+//            'favored' => ['int'],
+        );
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        $allrequest = $request->all();
+
+        $date = Carbon::now();
+
+        $packages = PackageModel::query();
+
+        foreach ($allrequest as $id => $value)
+        {
+            if ($id === 'country_id')
+            {
+                $packages = $packages->with('getCountry','getImages')->where('country_id', $request->country_id);
+
+            }
+            elseif ($id === 'from_date' and !empty($request->from_date))
+            {
+                $packages = $packages->whereDate('from_date','>=', $request->from_date);
+
+            }
+            elseif ($id === 'end_date' and !empty($request->end_date))
+            {
+                $packages = $packages->whereDate('end_date','<=',$request->end_date);
+
+            }
+            elseif ($id === 'favored' and !empty($request->favored))
+            {
+                $packages = $packages->where('activity', $request->favored);
+
+            }
+            elseif ($id === 'price' and !empty($request->price))
+            {
+                $packages = $packages->where('price', $request->price);
+
+            }
+            elseif ($id === 'activities' and !empty($request->activities))
+            {
+                
+                $d = json_decode($request->activities, true);
+                // dd($d);
+//                $packages = $packages->whereIn('activity_2', $d );
+//                dd($d);
+                foreach ($d as $values)
+                {
+                    $packages = $packages->where('activity_2', 'LIKE', '%' . $values . '%');
+                }
+            }
+        }
+        $packages = $packages->whereDate('from_date' ,'>=' ,$date->toDateString())->orderby('id','DESC')->get();
+
+
+        if ($packages && count($packages) > 0) {
+            return response()->json([
+                'data' => $packages,
+            ], 200);
+        }
+        else {
+            return response()->json([
+                'message' => 'Packages Not Found',
+            ], 404);
+        }
+
+    }
+    public function acitivities($id)
+    {
+        $activities = ActivityModel::whereIn('id',json_decode($id))->get();
+        if ($activities)
+        {
+            return response()->json([
+                'data' => $activities,
+            ], 200);
+        } else
+        {
+            return response()->json([
+                'message' => 'Activities not found',
+            ], 404);
+        }
+    }
+    public function all_acitivities()
+    {
+        $activities = ActivityModel::orderby('id','ASC')->get();
+        if ($activities)
+        {
+            return response()->json([
+                'data' => $activities,
+            ], 200);
+        } else
+        {
+            return response()->json([
+                'message' => 'Activities not found',
+            ], 404);
+        }
+    }
+
     //Review
     public function reviews()
     {

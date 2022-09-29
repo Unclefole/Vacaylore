@@ -216,7 +216,7 @@ class GuiderPackageController extends Controller
                     $package->from_date = $req->from_date;
                     $package->end_date = $req->end_date;
                     $package->activity = $req->activity;
-//                    $package->activity_2 = json_encode($req->activities);
+                    $package->activity_2 = json_encode($req->activities);
                     // $package->is_taken = $req->is_taken;
                     $package->save();
 
