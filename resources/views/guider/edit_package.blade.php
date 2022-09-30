@@ -61,10 +61,6 @@
                                 @endforeach
                             </select>
                         </div>
-                        <!-- <div class="form-group">
-                        <label>Country ID</label>
-                          <input type="number" name="country_id" class="form-control" placeholder="Country">
-                        </div> -->
                        <div class="form-group">
                         <label>Start Date</label>
                           <input type="date" name="from_date" min="{{Carbon\Carbon::now()->format('Y-m-d')}}" value="{{$package->from_date}}" class="form-control" placeholder="Email Address" required>
@@ -81,26 +77,16 @@
                                     <option {{ $scenery->id == $package->activity ? 'selected' : ''}} value="{{$scenery->id}}">{{$scenery->name}}</option>
                                 @endforeach
                             </select>
-
-{{--                                <option {{ 'Ancient Architecture' == $package->activity ? 'selected' : ''}} value="Ancient Architecture">Ancient Architecture</option>--}}
-{{--                                <option {{ 'Beaches' == $package->activity ? 'selected' : ''}} value="Beaches">Beaches</option>--}}
-{{--                                <option {{ 'Concrete Jungles' == $package->activity ? 'selected' : ''}} value="Concrete Jungles">Concrete Jungles</option>--}}
-{{--                                <option {{ 'Deserts' == $package->activity ? 'selected' : ''}} value="Deserts">Deserts</option>--}}
-{{--                                <option {{ 'Forests' == $package->activity ? 'selected' : ''}} value="Forests">Forests</option>--}}
-{{--                                <option {{ 'Flea Markets' == $package->activity ? 'selected' : ''}} value="Flea Markets">Flea Markets</option>--}}
-{{--                                <option {{ 'Safari' == $package->activity ? 'selected' : ''}} value="Safari">Safari</option>--}}
-{{--                                <option {{ 'Volcanic Hotspots' == $package->activity ? 'selected' : ''}} value="Volcanic Hotspots">Volcanic Hotspots</option>--}}
-{{--                                <option {{ 'Wine Country' == $package->activity ? 'selected' : ''}} value="Wine Country">Wine Country</option>--}}
-{{--                                <option {{ 'Mountains' == $package->activity ? 'selected' : ''}} value="Mountains">Mountains</option>--}}
-{{--                                <option {{ 'Lake/River fronts' == $package->activity ? 'selected' : ''}} value="Lake/River fronts">Lake/River fronts</option>--}}
-{{--                                <option {{ 'Tropical Rain forests' == $package->activity ? 'selected' : ''}} value="Tropical Rain forests">Tropical Rain forests</option>--}}
-{{--                            </select>--}}
                         </div>
                           <div class="form-group">
                               <label>Activities</label>
                               <select class="slelct_text form-control" id="choices-multiple-remove-button" placeholder="Select Activities" name="activities[]" multiple readonly >
                                   @foreach ($activities as $key=> $activity)
-                                      <option {{ in_array($activity->id, json_decode($package->activity_2)) ? 'selected' : ''}} value="{{$activity->id}}">{{$activity->name}}</option>
+                                      @if(!empty($package->activity_2))
+                                            <option {{ in_array($activity->id, json_decode($package->activity_2)) ? 'selected' : ''}} value="{{$activity->id}}">{{$activity->name}}</option>
+                                      @else
+                                            <option value="{{$activity->id}}">{{$activity->name}}</option>
+                                      @endif
                                   @endforeach
                               </select>
                           </div>

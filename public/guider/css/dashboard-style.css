@@ -233,7 +233,7 @@ input#menu[type="checkbox"] {
 position: relative;
     height: calc(100vh - 73px)!important;
     overflow-y: auto;
-    border-top: 103px solid #101954;
+    border-top: 103px solid #fff;
     z-index: -1;
     display: block;
     padding-right: 10px;
@@ -717,9 +717,9 @@ color: #292929;
 }
 
 .logotype img {
-    width: 60%;
+    width: 43%;
     float: right;
-    margin: -10px 0 0px;
+    margin: -21px 70px 0px;
 }
 
 /*END QA Section*/

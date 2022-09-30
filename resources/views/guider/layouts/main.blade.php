@@ -7,6 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="#">
+    <link rel="icon" type="image/x-icon" href="{{asset('images/logo-new.png')}}">
     <title>Dashboard</title>
 
     @include('guider.layouts.css')

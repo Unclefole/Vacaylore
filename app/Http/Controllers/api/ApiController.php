@@ -254,21 +254,19 @@ class ApiController extends EmailController
                 $packages = $packages->where('price', $request->price);
 
             }
-            elseif ($id === 'activities' and !empty($request->activities))
-            {
-                
-                $d = json_decode($request->activities, true);
-                // dd($d);
-//                $packages = $packages->whereIn('activity_2', $d );
-//                dd($d);
-                foreach ($d as $values)
-                {
-                    $packages = $packages->where('activity_2', 'LIKE', '%' . $values . '%');
-                }
-            }
+//            elseif ($id === 'activities' and !empty($request->activities))
+//            {
+//                $d = json_decode($request->activities, true);
+//
+//                foreach ($d as $values)
+//                {
+//                    dd($values);
+//                    $packages = $packages->where('activity_2', 'LIKE', '%' . $values . '%');
+//                }
+//            }
         }
         $packages = $packages->whereDate('from_date' ,'>=' ,$date->toDateString())->orderby('id','DESC')->get();
-
+//        dd($packages);
 
         if ($packages && count($packages) > 0) {
             return response()->json([
@@ -992,6 +990,83 @@ class ApiController extends EmailController
 
     }
     /**-------------------Api Controller User Delete Account Api Ends--------------------------------------**/
+
+    /**-------------------Api Controller User Profile Starts------------------------------------**/
+    public function get_profile($id)
+    {
+        $user = ProfileModel::where('user_id',$id)->first();
+        $image_url = asset('users/'.$user->avatar);
+        if ($user) {
+            return response()->json([
+                'data' => $user,
+                'avatar' => $image_url
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => 'user not found'
+            ], 404);
+        }
+    }
+
+    public function profile(Request $request,$id)
+    {
+        $rules = array(
+            'full_name' => ['required'],
+            'phone' => ['required'],
+            'address' => ['required'],
+            'zip_code' => ['required'],
+            'account_title' => ['required'],
+            'account_number' => ['required'],
+        );
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+        $user_profile = ProfileModel::where('user_id',$id)->first();
+        $user_profile->full_name = $request->full_name;
+        $user_profile->phone = $request->phone;
+        $user_profile->address = $request->address;
+        $user_profile->zip_code = $request->zip_code;
+        $user_profile->account_title = $request->account_title;
+        $user_profile->account_number = $request->account_number;
+        $user_profile->save();
+
+        if ($user_profile->save()) {
+            return response()->json([
+                'data' => $user_profile,
+                'message'=> 'Updated Successfully'
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => 'user not found'
+            ], 404);
+        }
+    }
+
+
+    /**-------------------Api Controller  Favored scenery ends------------------------------------**/
+
+    /**-------------------Api Controller Favored scenery starts------------------------------------**/
+
+    public function specific_favored_scenery($id)
+    {
+        $favored_scenery = FavoredSceneryModel::where('id',$id)->orderby('id','ASC')->get();
+
+        if($favored_scenery){
+            return response()->json([
+                'data'=>$favored_scenery
+            ],200);
+        }
+        else
+        {
+            return response()->json([
+                'message' => 'user not found'
+            ], 404);
+        }
+    }
+
+
+    /**-------------------Api Controller Favoured scenery ends------------------------------------**/
 
 
 }

@@ -29,7 +29,7 @@
                         <th class="border-0">Name</th>
                         <th class="border-0">Email</th>
                         <th class="border-0">Membership Plan</th>
-                        <th class="border-0">Payment Slip</th>
+{{--                        <th class="border-0">Payment Slip</th>--}}
                         <th class="border-0">Price</th>
                         <!-- <th class="border-0">Status</th>
                         <th class="border-0 text-center">Action</th> -->
@@ -38,14 +38,15 @@
                 <tbody>
                     <!-- Item -->
                         <!-- Start of Item -->
+
                         @foreach($memberships as $key=>$value)
                             <tr>
                                 <td class="border-0"><a href="#" class="text-primary font-weight-bold">{{$key+1}}</a> </td>
                                 <td class="border-0 font-weight-bold">{{$value->getUser->username}}</td>
                                 <td class="border-0 font-weight-bold">{{$value->getUser->email}}</td>
                                 <td class="border-0 font-weight-bold">{{$value->getMembershipPlan->title}}</td>
-                                <td class="border-0 font-weight-bold"><a href="{{ $value->receipt_url }}">Payemnt slip</a></td>
-                                <td class="border-0 font-weight-bold">{{ $value->price }}</td>
+{{--                                <td class="border-0 font-weight-bold"><a href="{{ $value->receipt_url }}">Payemnt slip</a></td>--}}
+                                <td class="border-0 font-weight-bold">${{ $value->price }}</td>
                                 <!-- <td class="border-0 font-weight-bold">
                                     <span class="{{$value->status == 1 ? 'text-success' : 'text-danger'}}">{{$value->status == 1 ? 'Active' : 'Inactive'}}</span>
                                 </td>

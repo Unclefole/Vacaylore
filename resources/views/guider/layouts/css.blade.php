@@ -8,6 +8,10 @@
 <link href="{{asset('guider/css/dashboard-style.css')}}" rel="stylesheet">
 <link href="{{asset('guider/css/custom.css')}}" rel="stylesheet">
 <link rel="stylesheet" href="{{asset('css/choices.min.css')}}">
+<link type="text/css" href="{{asset('admin/css/custom.css')}}" rel="stylesheet">
+
+
+
 
 <!-- ================================== -->
 <!-- Toaster CSS-->

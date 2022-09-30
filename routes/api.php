@@ -144,5 +144,15 @@ Route::group(['middleware' => ['AllowCorsMiddleware']], function () {
     /**------------------- Delete Account Api Starts-----------------------------------------------------------**/
     Route::get('/delete-account/{id?}', [ApiController::class, 'user_account_delete'])->name('api_user_account_delete');
     /**------------------- Delete Account Api Ends-------------------------------------------------------------**/
+
+    /**------------------- Delete Account Api Starts-----------------------------------------------------------**/
+    Route::post('/profile/{id}', [ApiController::class, 'profile'])->name('api_profile');
+    Route::get('/get-profile/{id}', [ApiController::class, 'get_profile'])->name('api_get_profile');
+    /**------------------- Delete Account Api Ends-------------------------------------------------------------**/
+
+    /**------------------- Favored Scenery Api Starts-------------------------------------------------------------**/
+    Route::get('/specific-favored-scenery/{id}', [ApiController::class, 'specific_favored_scenery'])->name('specific_favored_scenery');
+    /**------------------- Favored Scenery Api Ends-------------------------------------------------------------**/
+
 });
 /**-------------------AllowCors Middleware Ends--------------------------------------------------------------**/

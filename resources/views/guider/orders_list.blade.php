@@ -13,23 +13,18 @@
                     <li><a href="javascript:void(0)">Orders</a></li>
                   </ul>
                 </div>
-              </div>                  
-              <!-- <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                <div class="">
-                  <a href="{{route('Guider_add_package')}}" class="btn btn_dashed"> Add New Package</a>
-                </div>
-              </div> -->
+              </div>
               <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="main_table">
                   <div class="table-responsive table-bordered table-striped">
-                    <table class="table">
+                    <table class="table display" id="example">
                       <tr>
                         <th>#</th>
                         <th>Name</th>
                         <th>Email</th>
                         <th>Package Title</th>
                         <th>Country</th>
-                        <th>Payment Slip</th>
+{{--                        <th>Payment Slip</th>--}}
                         <th>Price</th>
                         <!-- <th >Action</th> -->
                       </tr>
@@ -40,8 +35,8 @@
                             <td class="border-0 font-weight-bold">{{$value->getUser->email}}</td>
                             <td class="border-0 font-weight-bold">{{ $value->getPackages->title }}</td>
                             <td class="border-0 font-weight-bold">{{ $value->getPackages->getCountry->name }}</td>
-                            <td class="border-0 font-weight-bold"><a href="{{ $value->payment_url }}">Payemnt slip</a></td>
-                            <td class="border-0 font-weight-bold">{{ $value->getPackages->price }}</td>
+{{--                            <td class="border-0 font-weight-bold"><a href="{{ $value->payment_url }}">Payemnt slip</a></td>--}}
+                            <td class="border-0 font-weight-bold">${{ $value->getPackages->price }}</td>
                             <!-- <td class="border-0 font-weight-bold">
                                 <span class="{{$value->status == 1 ? 'text-success' : 'text-danger'}}">{{$value->status == 1 ? 'Active' : 'Inactive'}}</span>
                             </td>
@@ -54,47 +49,6 @@
                         </tr>
                     @endforeach
 
-                      <!-- <tr>
-                        <td>1  </td>                            
-                        <td>test  </td>
-                        <td>asd@mail.com  </td>
-                        <td>User</td>                            
-                        <td  class="inactive">Inactive</td>
-                        <td colspan="2" ><a href="javascript:void(0)" class="edit">Edit |</a><a href="javascript:void(0)" class="del">Delete </a> </td>
-                      </tr>                         
-                      <tr>
-                        <td>1  </td>                            
-                        <td>test  </td>
-                        <td>asd@mail.com  </td>
-                        <td>User</td>                            
-                        <td  class="inactive">Inactive</td>
-                        <td colspan="2" ><a href="javascript:void(0)" class="edit">Edit |</a><a href="javascript:void(0)" class="del">Delete </a> </td>
-                      </tr>                          
-                      <tr>
-                        <td>1  </td>                            
-                        <td>test  </td>
-                        <td>asd@mail.com  </td>
-                        <td>User</td>                            
-                        <td  class="inactive">Inactive</td>
-                        <td colspan="2" ><a href="javascript:void(0)" class="edit">Edit |</a><a href="javascript:void(0)" class="del">Delete </a> </td>
-                      </tr>                          
-                      <tr>
-                        <td>1  </td>                            
-                        <td>test  </td>
-                        <td>asd@mail.com  </td>
-                        <td>User</td>                            
-                        <td  class="inactive">Inactive</td>
-                        <td colspan="2" ><a href="javascript:void(0)" class="edit">Edit |</a><a href="javascript:void(0)" class="del">Delete </a> </td>
-                      </tr>
-                      <tr>
-                        <td>1  </td>                            
-                        <td>test  </td>
-                        <td>asd@mail.com  </td>
-                        <td>User</td>                            
-                        <td  class="inactive">Inactive</td>
-                        <td colspan="2" ><a href="javascript:void(0)" class="edit">Edit |</a><a href="javascript:void(0)" class="del">Delete </a> </td>
-                      </tr>                           -->
-
                     </table>
                   </div>
                 </div>
@@ -102,8 +56,11 @@
             </div>
           </div>
         </div>
+
 @endsection
 
-<link type="text/css" href="{{asset('admin/css/custom.css')}}" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.1/css/jquery.dataTables.css">
+
+
+
+
 

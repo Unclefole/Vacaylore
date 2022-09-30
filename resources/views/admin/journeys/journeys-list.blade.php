@@ -30,7 +30,7 @@
                         <th class="border-0">Email</th>
                         <th class="border-0">Package Title</th>
                         <th class="border-0">Country</th>
-                        <th class="border-0">Payment Slip</th>
+{{--                        <th class="border-0">Payment Slip</th>--}}
                         <th class="border-0">Price</th>
                         <!-- <th class="border-0">Status</th> -->
                         <!-- <th class="border-0 text-center">Action</th> -->
@@ -46,7 +46,7 @@
                                 <td class="border-0 font-weight-bold">{{$value->getUser->email}}</td>
                                 <td class="border-0 font-weight-bold">{{ $value->getPackages->title }}</td>
                                 <td class="border-0 font-weight-bold">{{ $value->getPackages->getCountry->name }}</td>
-                                <td class="border-0 font-weight-bold"><a href="{{ $value->payment_url }}">Payemnt slip</a></td>
+{{--                                <td class="border-0 font-weight-bold"><a href="{{ $value->payment_url }}">Payemnt slip</a></td>--}}
                                 <td class="border-0 font-weight-bold">{{ $value->getPackages->price }}</td>
                                 <!-- <td class="border-0 font-weight-bold">
                                     <span class="{{$value->status == 1 ? 'text-success' : 'text-danger'}}">{{$value->status == 1 ? 'Active' : 'Inactive'}}</span>
