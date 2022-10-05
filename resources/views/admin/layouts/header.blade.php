@@ -68,6 +68,18 @@ function active($current_page){
               </ul>
           </div>
         </li>
+{{--        <li class="nav-item {{ active('favored-scenery-list') }}">--}}
+{{--          <a href="{{route('admin_all_favored_scenery')}}" class="nav-link">--}}
+{{--              <span class="sidebar-icon"><span class="far fa-user"></span></span>--}}
+{{--              <span>Favored Scenery</span>--}}
+{{--          </a>--}}
+{{--        </li>--}}
+{{--        <li class="nav-item {{ active('activity-list') }}">--}}
+{{--          <a href="{{route('admin_all_activity')}}" class="nav-link">--}}
+{{--              <span class="sidebar-icon"><span class="far fa-user"></span></span>--}}
+{{--              <span>Activity</span>--}}
+{{--          </a>--}}
+{{--        </li>--}}
         <li class="nav-item {{ active('guider-list') }}">
           <a href="{{route('admin_guiders')}}" class="nav-link">
               <span class="sidebar-icon"><span class="far fa-user"></span></span>

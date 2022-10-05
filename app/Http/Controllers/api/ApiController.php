@@ -283,6 +283,10 @@ class ApiController extends EmailController
     public function acitivities($id)
     {
         $activities = ActivityModel::whereIn('id',json_decode($id))->get();
+        foreach($activities as $activity)
+        {
+            $activity->image = asset('activity/'.$activity->image);
+        }
         if ($activities)
         {
             return response()->json([
@@ -298,6 +302,10 @@ class ApiController extends EmailController
     public function all_acitivities()
     {
         $activities = ActivityModel::orderby('id','ASC')->get();
+        foreach($activities as $activity)
+        {
+            $activity->image = asset('activity/'.$activity->image);
+        }
         if ($activities)
         {
             return response()->json([
@@ -694,6 +702,10 @@ class ApiController extends EmailController
     public function favored_sceneries()
     {
         $data = FavoredSceneryModel::all();
+        foreach($data as $scenery)
+        {
+            $scenery->image = asset('favored_scenery'.'/'.$scenery->image);
+        }
         if ($data) {
             return response()->json([
                 'data' => $data,
@@ -1051,6 +1063,10 @@ class ApiController extends EmailController
     public function specific_favored_scenery($id)
     {
         $favored_scenery = FavoredSceneryModel::where('id',$id)->orderby('id','ASC')->get();
+        foreach($favored_scenery as $scenery)
+        {
+            $scenery->image = asset('favored_scenery'.'/'.$scenery->image);
+        }
 
         if($favored_scenery){
             return response()->json([

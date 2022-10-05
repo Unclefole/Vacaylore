@@ -16,11 +16,12 @@ use App\Http\Controllers\admin\AdminVacationerController;
 use App\Http\Controllers\admin\AdminJourneyController;
 use App\Http\Controllers\admin\AdminMembershipController;
 use App\Http\Controllers\admin\AdminMembershipPlansController;
+use App\Http\Controllers\admin\AdminActivityController;
+use App\Http\Controllers\admin\AdminFavoredSceneryController;
 
 use App\Http\Controllers\guider\GuiderController;
 use App\Http\Controllers\guider\GuiderPackageController;
 use App\Http\Controllers\guider\GuiderMembershipController;
-
 
 use App\Http\Controllers\vacationer\VacationerPackageController;
 
@@ -121,6 +122,20 @@ Route::group(['middleware' => ['protectedPage']], function () {
     Route::get('/admin/job-edit/{id?}', [AdminJobController::class, 'job_edit'])->name('admin_jobs_edit');
     Route::get('/admin/job-delete/{job?}', [AdminJobController::class, 'job_delete'])->name('admin_jobs_delete');
     Route::post('/admin/job-add-edit/{job?}', [AdminJobController::class, 'job_add_edit_data'])->name('admin_jobs_add_edit');
+
+    /**Activity Routes */
+    Route::get('/admin/activity-list', [AdminActivityController::class, 'all_activity'])->name('admin_all_activity');
+    Route::get('/admin/activity-add', [AdminActivityController::class, 'add_activity'])->name('admin_add_activity');
+    Route::get('/admin/activity-edit/{id}', [AdminActivityController::class, 'edit_activity'])->name('admin_edit_activity');
+    Route::get('/admin/activity-delete/{activity}', [AdminActivityController::class, 'delete_activity'])->name('admin_delete_activity');
+    Route::post('/admin/activity-add/{activity?}', [AdminActivityController::class, 'add_edit_activity'])->name('admin_add_edit_activity');
+
+    /**FavoredScenery Routes */
+    Route::get('/admin/favored-scenery-list', [AdminFavoredSceneryController::class, 'all_favored_scenery'])->name('admin_all_favored_scenery');
+    Route::get('/admin/favored-scenery-add', [AdminFavoredSceneryController::class, 'add_favored_scenery'])->name('admin_add_favored_scenery');
+    Route::get('/admin/favored-scenery-edit/{id}', [AdminFavoredSceneryController::class, 'edit_favored_scenery'])->name('admin_edit_favored_scenery');
+    Route::get('/admin/favored-scenery-delete/{favored_scenery}', [AdminFavoredSceneryController::class, 'delete_favored_scenery'])->name('admin_delete_favored_scenery');
+    Route::post('/admin/favored-scenery-add/{favored_scenery?}', [AdminFavoredSceneryController::class, 'add_edit_favored_scenery'])->name('admin_add_edit_favored_scenery');
 
     Route::get('/admin/job-applications-list/{job_id?}', [AdminJobController::class, 'job_applications'])->name('admin_jobs_applications');
     Route::get('/admin/job-posted-list', [AdminJobController::class, 'jobs_applied_posted_list'])->name('admin_jobs_applied_posted_list');
