@@ -1,0 +1,40 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Laravel\Socialite\Facades\Socialite;
+
+class FaceBookController extends Controller
+{
+    public function loginUsingFacebook()
+    {dd('1');
+        return Socialite::driver('facebook')->redirect();
+    }
+
+    public function callbackFromFacebook()
+    {
+        dd('1');
+        try {
+            $user = Socialite::driver('facebook')->user();
+
+            $saveUser = User::updateOrCreate([
+                'facebook_id' => $user->getId(),
+            ], [
+                'name' => $user->getName(),
+                'email' => $user->getEmail(),
+                'password' => Hash::make($user->getName() . '@' . $user->getId())
+            ]);
+            dd($saveUser);
+            Auth::loginUsingId($saveUser->id);
+
+            return redirect()->route('home');
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+}
