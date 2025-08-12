@@ -115,15 +115,15 @@
 
                         <div class="row">
                             <div class="col-md-2 col-sm-2 col-xs-12">
-                                <label>Account Title</label>
+                                <label>Paypal Account Email</label>
                             </div>
                             <div class="col-md-4 col-sm-4 col-xs-12">
                                 <div class="form-group">
-                                    <input type="text" name="account_title"
-                                           value="{{$profile ? $profile->account_title : ''}}" class="form-control"
-                                           placeholder="Account Title">
+                                    <input type="text" name="paypal_account_email"
+                                           value="{{$profile ? $profile->paypal_email : ''}}" class="form-control"
+                                           placeholder="Paypal Account Email">
                                 </div>
-                                @error('account_title')
+                                @error('paypal_account_email')
                                 <div class="alert alert-danger">
                                     {{ $message }}
                                 </div>

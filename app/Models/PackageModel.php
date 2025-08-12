@@ -9,6 +9,10 @@ class PackageModel extends Model
 {
     protected $table= "packages";
     use HasFactory;
+    protected $casts = [
+        'from_date'  => 'date:m-d-Y',
+        'end_date'  => 'date:m-d-Y',
+    ];
 
     public function getCountry()
     {
@@ -20,7 +24,7 @@ class PackageModel extends Model
     }
     public function getImage()
     {
-        return $this->hasMany('App\Models\ImageModel','image_id');
+        return $this->hasMany('App\Models\ImageModel','package_id');
     }
     public function getFavoredScenery()
     {
@@ -28,7 +32,7 @@ class PackageModel extends Model
     }
     public function getImages()
     {
-        return $this->hasMany('App\Models\ImageModel','pakage_id');
+        return $this->hasMany('App\Models\ImageModel','package_id');
     }
     public function getPackageJourneys()
     {

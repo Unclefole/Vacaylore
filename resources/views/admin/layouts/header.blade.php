@@ -45,68 +45,78 @@ function active($current_page){
           <a href="{{route('admin_dashboard')}}" class="nav-link">
             <span class="sidebar-icon"><span class="fas fa-chart-pie"></span></span>
             <span>Dashboard</span>
+
           </a>
         </li>
-        <li class="nav-item {{ active('job-list') . active('job-add') . active('job-edit') . active('job-completed-list') . active('job-cancelled-list') . active('job-pending-list') . active('job-posted-list')
-        }}">
+        <li class="nav-item {{ active('job-list') . active('job-add') . active('job-edit') . active('job-completed-list') . active('job-cancelled-list') . active('job-pending-list') . active('job-posted-list')}}">
         <!-- . active('sub-categories-list') . active('sub-categories-add') . active('sub-categories-edit') . active('products-list') . active('products-add') . active('products-edit') -->
           <span class="nav-link  collapsed  d-flex justify-content-between align-items-center" data-toggle="collapse" data-target="#submenu-pages">
             <span>
-              <span class="sidebar-icon"><span class="far fa-file-alt"></span></span>
-              Jobs
-            </span>
+              <span class="sidebar-icon"><span class="fa-solid fa-list-check"></span></span>Jobs</span>
             <span class="link-arrow"><span class="fas fa-chevron-right"></span></span>
           </span>
           <div class="multi-level collapse " role="list" id="submenu-pages" aria-expanded="false">
               <ul class="flex-column nav">
-                  <li class="nav-item {{ active('job-list') . active('job-add') . active('job-edit') }}"><a class="nav-link" href="{{route('admin_jobs')}}"><i class="fas fa-bars"></i><span> Jobs</span></a></li>
-                  <li class="nav-item {{ active('job-posted-list') }}"><a class="nav-link" href="{{route('admin_jobs_applied_posted_list')}}"><i class="fas fa-bars"></i><span> Jobs Posted</span></a></li>
-                  <li class="nav-item {{ active('job-pending-list') }}"><a class="nav-link" href="{{route('admin_jobs_applied_pending_list')}}"><i class="fas fa-bars"></i><span> Jobs Pending</span></a></li>
-                  <li class="nav-item {{ active('job-completed-list') }}"><a class="nav-link" href="{{route('admin_jobs_applied_completed_list')}}"><i class="fas fa-bars"></i><span> Jobs Completed</span></a></li>
-                  <li class="nav-item {{ active('job-cancelled-list') }}"><a class="nav-link" href="{{route('admin_jobs_applied_cancelled_list')}}"><i class="fas fa-bars"></i><span> Jobs Cancelled</span></a></li>
+                  <li class="nav-item {{ active('job-list') . active('job-add') . active('job-edit') }}"><a class="nav-link" href="{{route('admin_jobs')}}"><i class="fa-solid fa-list-check"></i><span> Jobs</span></a></li>
+                  <li class="nav-item {{ active('job-posted-list') }}"><a class="nav-link" href="{{route('admin_jobs_applied_posted_list')}}"><i class="fa-solid fa-bars"></i><span> Jobs Posted</span></a></li>
+                  <li class="nav-item {{ active('job-pending-list') }}"><a class="nav-link" href="{{route('admin_jobs_applied_pending_list')}}"><i class="fa-solid fa-hourglass-end"></i><span> Jobs Pending</span></a></li>
+                  <li class="nav-item {{ active('job-completed-list') }}"><a class="nav-link" href="{{route('admin_jobs_applied_completed_list')}}"><i class="fa-regular fa-square-check"></i> <span> Jobs Completed</span></a></li>
+                  <li class="nav-item {{ active('job-cancelled-list') }}"><a class="nav-link" href="{{route('admin_jobs_applied_cancelled_list')}}"><i class="fa-solid fa-xmark"></i><span> Jobs Cancelled</span></a></li>
                   <!-- <li class="nav-item {{ active('products-list') . active('products-add') . active('products-edit') }}"><a class="nav-link" href="{{route('admin_products')}}"><i class="fas fa-box-open"></i><span> Products</span></a></li> -->
               </ul>
           </div>
         </li>
-{{--        <li class="nav-item {{ active('favored-scenery-list') }}">--}}
-{{--          <a href="{{route('admin_all_favored_scenery')}}" class="nav-link">--}}
-{{--              <span class="sidebar-icon"><span class="far fa-user"></span></span>--}}
-{{--              <span>Favored Scenery</span>--}}
-{{--          </a>--}}
-{{--        </li>--}}
-{{--        <li class="nav-item {{ active('activity-list') }}">--}}
-{{--          <a href="{{route('admin_all_activity')}}" class="nav-link">--}}
-{{--              <span class="sidebar-icon"><span class="far fa-user"></span></span>--}}
-{{--              <span>Activity</span>--}}
-{{--          </a>--}}
-{{--        </li>--}}
+        <li class="nav-item {{ active('favored-scenery-list') }}">
+          <a href="{{route('admin_all_favored_scenery')}}" class="nav-link">
+              <span class="sidebar-icon"><span class="fa-solid fa-earth-americas"></span></span>
+              <span>Favored Scenery</span>
+          </a>
+        </li>
+        <li class="nav-item {{ active('activity-list') }}">
+          <a href="{{route('admin_all_activity')}}" class="nav-link">
+              <span class="sidebar-icon"><span class="fa-solid fa-chart-line"></span></span>
+              <span>Activity</span>
+          </a>
+        </li>
+          <li class="nav-item {{ active('guider-payment-list') }}">
+              <a href="{{route('admin_guider_payment_list')}}" class="nav-link">
+                  <span class="sidebar-icon"><span class="fa-solid fa-dollar-sign"></span></span>
+                  <span>Guider Payments</span>
+              </a>
+          </li>
+          <li class="nav-item {{ active('commission-edit') }}">
+              <a href="{{route('admin_commission_edit')}}" class="nav-link">
+                  <span class="sidebar-icon"><span class="fa-solid fa-percent"></span></span>
+                  <span>Commission</span>
+              </a>
+          </li>
         <li class="nav-item {{ active('guider-list') }}">
           <a href="{{route('admin_guiders')}}" class="nav-link">
-              <span class="sidebar-icon"><span class="far fa-user"></span></span>
+              <span class="sidebar-icon"><span class="fa-solid fa-users"></span></span>
               <span>Guides</span>
           </a>
         </li>
         <li class="nav-item {{ active('vacationer-list') }}">
           <a href="{{route('admin_vacationers')}}" class="nav-link">
-              <span class="sidebar-icon"><span class="far fa-user"></span></span>
+              <span class="sidebar-icon"><span class="fa-solid fa-users"></span></span>
               <span>Vacationers</span>
           </a>
         </li>
         <li class="nav-item {{ active('journey-list') }}">
           <a href="{{route('admin_journeys')}}" class="nav-link">
-              <span class="sidebar-icon"><span class="far fa-user"></span></span>
+              <span class="sidebar-icon"><span class="fa-solid fa-map-location"></span></span>
               <span>Journeys</span>
           </a>
         </li>
         <li class="nav-item {{ active('membership-list') }}">
           <a href="{{route('admin_memberships')}}" class="nav-link">
-              <span class="sidebar-icon"><span class="far fa-user"></span></span>
+              <span class="sidebar-icon"><span class="fa-solid fa-users"></span></span>
               <span>Memberships</span>
           </a>
         </li>
         <li class="nav-item {{ active('membership-plans-list') }}">
           <a href="{{route('admin_memberships_plans')}}" class="nav-link">
-              <span class="sidebar-icon"><span class="far fa-user"></span></span>
+              <span class="sidebar-icon"><span class="fa-solid fa-users"></span></span>
               <span>Memberships Plans</span>
           </a>
         </li>

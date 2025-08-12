@@ -181,7 +181,7 @@ class GuiderController extends Controller
         $profile->zip_code = $req->zip_code;
         $profile->country_id = $req->country_id;
         $profile->country = $countryName;
-        $profile->account_title = $req->account_title;
+        $profile->paypal_email = $req->paypal_account_email;
         $profile->account_number = $req->account_number;
         $profile->save();
 

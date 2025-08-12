@@ -78,8 +78,8 @@ class GuiderPackageController extends Controller
 
                     $countries = CountryModel::all();
                     $sceneries = FavoredSceneryModel::all();
-                    $activities = ActivityModel::where('status',1)->orderBy('name','Asc')->get();
-                    return view('guider.add_package', compact('countries', 'sceneries','activities'));
+                    $activities = ActivityModel::where('status', 1)->orderBy('name', 'Asc')->get();
+                    return view('guider.add_package', compact('countries', 'sceneries', 'activities'));
                     // ========  ==================================================================================================================================================================================================================================                }
 
                 }
@@ -103,10 +103,10 @@ class GuiderPackageController extends Controller
 
                     $countries = CountryModel::all();
                     $sceneries = FavoredSceneryModel::all();
-                    $activities = ActivityModel::where('status',1)->orderBy('name','Asc')->get();
+                    $activities = ActivityModel::where('status', 1)->orderBy('name', 'Asc')->get();
                     // $package = PackageModel::find($id)->with('getImages');
                     $package = PackageModel::where('id', $id)->with('getImages')->first();
-                    return view('guider.edit_package', compact('countries', 'sceneries','activities', 'package'));
+                    return view('guider.edit_package', compact('countries', 'sceneries', 'activities', 'package'));
                     // ========  ==================================================================================================================================================================================================================================                }
 
                 }
@@ -146,19 +146,35 @@ class GuiderPackageController extends Controller
     {
         (isset($package->id) and $package->id > 0) ? $validate_image = '' : $validate_image = 'required';
 
-        $req->validate([
+        $rules = array(
             'title' => 'required',
             'description' => 'required',
             'price' => 'required',
             'country_id' => 'required',
             'from_date' => 'required|before:end_date',
             'end_date' => 'required|after:from_date',
+//            'meet_up_point' => 'required',
             'activity' => 'required',
 //            'activities' => 'required',
             // 'image' => 'required',
             'image' => $validate_image,
             'image.*' => 'image|mimes:jpeg,png,jpg|max:2048'
-        ]);
+        );
+
+//        $customMessages = array(
+//            'location.required_if' => 'The meet up point is required!',
+//            'place_id.required_if' => 'The meet up point is required!',
+//            'latitude.required_if' => 'The meet up point is required!',
+//            'longitude.required_if' => 'The meet up point is required!'
+//        );
+        $validator = Validator::make($req->all(), $rules);
+        if ($validator->fails()) {
+            return back()->withErrors($validator);
+        }
+        if ($req->meet_up_point && ($req->place_id === null || $req->latitude === null || $req->longitude === null)){
+            $validator->getMessageBag()->add('meet_up_point',  'Please select meet-up point again.');
+            return back()->withErrors($validator);
+        }
 
         if (Auth::check()) {
             $member = MembershipModel::where('user_id', auth()->user()->id)->orderBy('id', 'DESC')->first();
@@ -216,6 +232,10 @@ class GuiderPackageController extends Controller
                     $package->from_date = $req->from_date;
                     $package->end_date = $req->end_date;
                     $package->activity = $req->activity;
+                    $package->meet_up_point = $req->meet_up_point;
+                    $package->place_id = $req->place_id;
+                    $package->latitude = $req->latitude;
+                    $package->longitude = $req->longitude;
                     $package->activity_2 = json_encode($req->activities);
                     // $package->is_taken = $req->is_taken;
                     $package->save();

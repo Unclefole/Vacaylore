@@ -41,14 +41,14 @@ class UIController extends EmailController
     }
     public function my_bookings()
     {
-        $packages = JourneysModel::with('getJourneyGuider','getJourneyGuiderProfile','getJourneyPackage.getCountry','getImage')
+        $orders = JourneysModel::with('getJourneyGuider','getJourneyGuiderProfile','getJourneyPackage.getCountry')
             ->where('user_id', auth()->user()->id)
             ->where('status', 1)
             ->where('is_paid', 1)
             ->orderby('id','DESC')
             ->get();
 //        dd($packages);
-        return view('my-bookings',compact('packages'));
+        return view('my-bookings',compact('orders'));
     }
 
     public function meta_login($package, $user)

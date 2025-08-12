@@ -16,30 +16,30 @@
     <section class="main_page">
         <div class="container">
             <div class="row">
-            @foreach($packages as $package)
+            @foreach($orders as $order)
                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
 
                         <div class="pro_main">
                             <div class="pro_img">
-                                <img src="{{asset('packages/'.$package->getImage->title)}}" class="img-fluid" alt="">
+                                <img src="{{asset('packages/'.$order->getJourneyPackage->getImage[0]->title)}}" class="img-fluid" alt="">
                             </div>
                             <div class="pro_text">
                                 <div class="webster">
                                     <h4><i class="fa-solid fa-user"></i>
-                                        {{$package->getJourneyGuider->username}}
+                                        {{$order->getJourneyGuider->username}}
                                     </h4>
                                 </div>
                                 <div class="draw">
-                                    <a href="{{route('Vacationer_package_detail', $package->getJourneyPackage->id)}}">{{$package->getJourneyPackage->title}}</a>
+                                    <a href="{{route('Vacationer_package_detail', $order->getJourneyPackage->id)}}">{{$order->getJourneyPackage->title}}</a>
                                 </div>
                                 <div class="borderrr">
                                     <div class="row">
                                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                             <div class="tooll">
                                                 <div class="tooltip">
-                                                   <p>Country : {{$package->getJourneyPackage->getCountry->name}}</p>
-                                                   <p>Invoice : {{$package->invoice_number}}</p>
-                                                   <p>Date : {{$package->created_at}}</p>
+                                                   <p>Country : {{$order->getJourneyPackage->getCountry->name}}</p>
+                                                   <p>Invoice : {{$order->invoice_number}}</p>
+                                                   <p>Date : {{$order->created_at}}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -54,7 +54,7 @@
                                         </div>
                                         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                             <div class="tooll">
-                                                <h5>${{$package->getJourneyPackage->price}}</h5>
+                                                <h5>${{$order->getJourneyPackage->price}}</h5>
                                             </div>
                                         </div>
                                     </div>

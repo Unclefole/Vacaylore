@@ -14,9 +14,11 @@ use App\Models\PackageModel;
 use App\Models\ProfileModel;
 use App\Models\User;
 use App\Models\CountryModel;
+use App\Models\CommissionModel;
 use App\Models\MembershipPlanModel;
 use App\Models\MembershipModel;
 use App\Models\JourneysModel;
+use App\Models\GuiderPaymentModel;
 use App\Models\PackageRequestsModel;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -69,7 +71,7 @@ class VacationerPackageController extends EmailController
 
             }
             elseif ($id === 'price' and $req->price != null) {
-                $packages = $packages->where('price', $req->price);
+                $packages = $packages->where('price',"<=", $req->price);
 
             }
             elseif ($id === 'activities' and count($req->activities) > 0 ) {
@@ -258,11 +260,13 @@ class VacationerPackageController extends EmailController
     public function event_paypal(Request $req)
     {
         $package = PackageModel::find($req->package_id);
+        $commission = CommissionModel::where('id',1)->first();
 
         $inv_no = time() . rand('111111111', '999999999');
         $user = Auth::user();
         $desc = $package->title;
         $price = $package->price;
+
             //condition store database Order
             $journey = new JourneysModel();
             $journey->invoice_number = $inv_no;
@@ -273,10 +277,17 @@ class VacationerPackageController extends EmailController
             $journey->payer_id = $req->payer_id;
             $journey->payment_id = $req->payment_id;
             $journey->total_price = $price;
+            $journey->guiders_cut = $price-($commission->commission*$price/100);
+            $journey->commission = $commission->commission;
             $journey->status = 1; //0=Process,1=completed,2=rejected
             $journey->is_paid = 1; //0=Unsuccessful,1=Successful
             $journey->save();
 
+            //for guider payments
+            $guider_payments = new GuiderPaymentModel();
+            $guider_payments->guider_id = $package->user_id;
+            $guider_payments->journey_id = $journey->id;
+            $guider_payments->save();
 
             //for email shoot starts
             $user_package = PackageModel::where('id',$package->id)->first();

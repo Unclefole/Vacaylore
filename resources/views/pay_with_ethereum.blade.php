@@ -127,10 +127,19 @@
                         });
                         const {hash, from} = transaction;
                         let val_meta_url = 'https://bitciexplorer.com/api?module=transaction&action=gettxreceiptstatus&txhash='+hash;
+
+                        //old
                         // let val_meta_url = 'https://blockexplorer.rinkeby.boba.network/api?module=transaction&action=gettxreceiptstatus&txhash=' + hash;
+
+                        // its works on live only
+                        // let val_meta_url = 'https://api.etherscan.io/api?module=proxy&action=eth_getTransactionByHash&txhash='+hash+'&apikey=PCKVEHXYYTJUE2458NP9IQQIJ4RBVAC6YY';
+                        // with live hash
+                        // let val_meta_url = 'https://api.etherscan.io/api?module=proxy&action=eth_getTransactionByHash&txhash=0x7435233835fc002643d8a9af1670daa2d2e641bf920c05653c58e1468bd21106&apikey=PCKVEHXYYTJUE2458NP9IQQIJ4RBVAC6YY';
+
                         let val_meta_data = "";
                         let val_meta_res = AjaxRequest_get(val_meta_url, val_meta_data);
                         console.log(val_meta_res);
+                        // alert(val_meta_res.result !== null);
                         if (val_meta_res.status == '1') {
                             var url = '{{route('Vacationer_meta_form',$package_id)}}';
                             var data = {'hash': hash, 'from': from, '_token': '{{csrf_token()}}'};

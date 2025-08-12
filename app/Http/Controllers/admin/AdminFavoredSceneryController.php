@@ -8,6 +8,7 @@ use App\Models\MembershipModel;
 use App\Models\MembershipPlanModel;
 use App\Models\FavoredSceneryModel;
 use App\Models\User;
+use App\Models\CountryModel;
 use DB;
 
 use App\Http\Controllers\Controller;

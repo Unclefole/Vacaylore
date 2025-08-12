@@ -81,6 +81,20 @@
                                                class="form-control" required>
                                     </div>
                                     <div class="form-group">
+                                        <label>Meet-Up Point</label>
+                                        <input id="searchTextField" class="form-control" type="text" size="50"
+                                               name="meet_up_point"  placeholder="Enter a location" autocomplete="on"
+                                               runat="server" required/>
+                                        <input type="hidden" id="placeId" name="place_id"/>
+                                        <input type="hidden" id="cityLat" name="latitude"/>
+                                        <input type="hidden" id="cityLng" name="longitude"/>
+                                    </div>
+                                    @error('meet_up_point')
+                                    <div class="alert alert-danger">
+                                        {{$message}}
+                                    </div>
+                                    @enderror
+                                    <div class="form-group">
                                         <label>Favored Scenery</label>
                                         <select class="form-control" name="activity" required>
                                             <option value="" selected hidden>Please Select Favored Scenery</option>
@@ -125,7 +139,23 @@
             </div>
 @endsection
 @push('js')
+                <script type="text/javascript"
+                        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCu5v9OrHrhf55iPRd8JIgB_QGAlZpmlj0&libraries=places"></script>
+                <script>
+                    function initialize() {
+                        var input = document.getElementById('searchTextField');
+                        var autocomplete = new google.maps.places.Autocomplete(input);
+                        google.maps.event.addListener(autocomplete, 'place_changed', function () {
+                            var place = autocomplete.getPlace();
+                            // console.log(place.place_id)
+                            document.getElementById('placeId').value = place.place_id;
+                            document.getElementById('cityLat').value = place.geometry.location.lat();
+                            document.getElementById('cityLng').value = place.geometry.location.lng();
+                        });
+                    }
 
+                    google.maps.event.addDomListener(window, 'load', initialize);
+                </script>
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
                 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 

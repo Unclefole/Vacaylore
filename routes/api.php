@@ -69,6 +69,7 @@ Route::group(['middleware' => ['AllowCorsMiddleware']], function () {
     /**-------------------Get Activities Api starts------------------------------------------------**/
     Route::get('/all-activities/', [ApiController::class, 'all_acitivities'])->name('all_acitivities');
     Route::get('/activities/{id}', [ApiController::class, 'acitivities'])->name('acitivities');
+    Route::get('/single-activities/{id}', [ApiController::class, 'single_acitivity'])->name('single_acitivity');
     /**-------------------Get Activities Api ends--------------------------------------------------**/
 
     /**-------------------Get Favored Sceneries Api starts------------------------------------------------**/
@@ -81,7 +82,7 @@ Route::group(['middleware' => ['AllowCorsMiddleware']], function () {
     /**-------------------Order Api ends-------------------------------------------------------------------**/
 
     /**-------------------stripe payment integration starts-----------------------------------------------**/
-    Route::get('/get-stripe-pk-key', [ApiController::class, 'stripe_key']);
+//    Route::get('/get-stripe-pk-key', [ApiController::class, 'stripe_key']);
     Route::post('stripe-form/submit', [ApiController::class, 'submit'])->name('stripeSubmit');
     Route::post('stripe-form/after-submit', [ApiController::class, 'aftersubmit'])->name('afterSubmit');
     /**-------------------stripe payment integration ends-------------------------------------------------**/

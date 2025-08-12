@@ -13,6 +13,7 @@ use App\Models\CountryModel;
 use App\Models\ActivityModel;
 use App\Models\JourneysModel;
 use App\Models\MembershipModel;
+use App\Models\CommissionModel;
 use App\Models\MembershipPlanModel;
 use App\Models\FavoredSceneryModel;
 use Illuminate\Support\Facades\Hash;
@@ -45,7 +46,14 @@ class ApiController extends EmailController
 
     public function all_packages()
     {
-        $data = PackageModel::with('getImages')->with('getCountry')->orderBy('id', 'desc')->where('status', 0)->where('from_date', '>=', Carbon::now())->where('end_date', '>=', Carbon::now()->addDay())->take(5)->get();
+        
+        $data = PackageModel::with('getImages')
+        ->with('getCountry')
+        ->orderBy('id', 'desc')
+        ->where('status', 0)
+        ->where('from_date', '>=', Carbon::now())
+        ->where('end_date', '>=', Carbon::now()->addDay())
+        ->take(5)->get();
 
         if ($data) {
             return response()->json([
@@ -62,6 +70,11 @@ class ApiController extends EmailController
     {
         $data = CountryModel::all();
 
+        foreach($data as $countries)
+        {
+            $countries->image = asset('countries'.'/'.$countries->image);
+        }
+
         if ($data) {
             return response()->json([
                 'data' => $data,
@@ -77,6 +90,7 @@ class ApiController extends EmailController
     {
         if ($id) {
             $data = PackageModel::where('country_id', $id)->where('from_date', '>=', Carbon::now())->where('end_date', '>=', Carbon::now()->addDay())->with('getImages')->with('getCountry')->where('status', 0)->get();
+
             if ($data) {
                 return response()->json([
                     'data' => $data,
@@ -102,6 +116,7 @@ class ApiController extends EmailController
             $data = User::where('id', $id)->where('status', 1)->where('profile_status', 0)->first(); // in user table status 1 == active
 
             $data = PackageModel::where('user_id', $data->id)->where('from_date', '>=', Carbon::now())->where('end_date', '>=', Carbon::now()->addDay())->with('getFavoredScenery')->with('getImages')->with('getCountry')->where('status', 0)->get();// in package table status 0 == active
+
             if ($data) {
                 return response()->json([
                     'data' => $data,
@@ -155,6 +170,7 @@ class ApiController extends EmailController
             ], 404);
         } else {
             $data = PackageModel::where('activity', $id)->where('from_date', '>=', Carbon::now())->where('end_date', '>=', Carbon::now()->addDay())->with('getImages')->with('getCountry')->where('status', 0)->get();
+
             if ($data) {
                 return response()->json([
                     'data' => $data,
@@ -266,7 +282,6 @@ class ApiController extends EmailController
 //            }
         }
         $packages = $packages->whereDate('from_date' ,'>=' ,$date->toDateString())->orderby('id','DESC')->get();
-//        dd($packages);
 
         if ($packages && count($packages) > 0) {
             return response()->json([
@@ -299,6 +314,34 @@ class ApiController extends EmailController
             ], 404);
         }
     }
+    
+    public function single_acitivity($id)
+    {
+        if (!$id) {
+            return response()->json([
+                'message' => 'Activities Not Found',
+            ], 404);
+        } else {
+            $data = PackageModel::where('activity_2', 'LIKE', '%' . $id . '%')
+                ->where('from_date', '>=', Carbon::now())
+                ->where('end_date', '>=', Carbon::now()->addDay())
+                ->with('getImages')
+                ->with('getCountry')
+                ->where('status', 0)
+                ->get();
+
+            if ($data) {
+                return response()->json([
+                    'data' => $data,
+                ], 200);
+            } else {
+                return response()->json([
+                    'message' => 'Packages Not Found',
+                ], 404);
+            }
+        }
+    }
+
     public function all_acitivities()
     {
         $activities = ActivityModel::orderby('id','ASC')->get();
@@ -631,6 +674,9 @@ class ApiController extends EmailController
             if ($package) {
                 $journey_model = JourneysModel::where('invoice_number', $request->invoiceNumber)->first();
                 //condition store database Order
+
+                $commission = CommissionModel::where('id',1)->first();
+                $price = $package->price;
                 if ($journey_model) {
                     $journey = $journey_model;
                     $msg = 'updated';
@@ -647,6 +693,9 @@ class ApiController extends EmailController
                 $journey->payment_id = $request->paymentId;
                 $journey->payer_id = $request->payerId;
                 $journey->total_price = $package->price;
+                $journey->guiders_cut = $price-($commission->commission*$price/100);
+                $journey->commission = $commission->commission;
+
                 $journey->status = 1; //0=Process,1=completed,2=rejected
                 $journey->is_paid = 1; //0=Unsuccessfull Payment,1=Successfull Payment
                 $journey->save();
@@ -665,10 +714,13 @@ class ApiController extends EmailController
                     $journey->user_id = $user->id;
                     $journey->guide_id = $package->user_id;
                     $journey->package_id = $package->id;
-                    if ($request->stripeId) {
-                        $journey->payment_type = "Through Stripe";
-                        $journey->payment_id = $request->stripeId;
+                    if ($request->payerId || $request->paymentId) {
+                        $journey->payment_type = "Through Paypal";
+                        $journey->payer_id = $request->payerId;
+                        $journey->payment_id = $request->paymentId;
                     }
+                    $journey->guiders_cut = $price-($commission->commission*$price/100);
+                    $journey->commission = $commission->commission;
                     $journey->total_price = $package->price;
                     $journey->status = 0; //0=Process,1=completed,2=rejected
                     $journey->is_paid = 0; //0=Unsuccessfull Payment,1=Successfull Payment

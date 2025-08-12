@@ -203,7 +203,7 @@ class HomeController extends EmailController
 
         if (!$user) {
             return response()->json([
-                'message' => 'Invalid Email'
+                'message' => 'Email not found'
             ], 401);
         }
         if ($user->is_deleted_account === 2) {

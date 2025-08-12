@@ -18,6 +18,7 @@ use App\Http\Controllers\admin\AdminMembershipController;
 use App\Http\Controllers\admin\AdminMembershipPlansController;
 use App\Http\Controllers\admin\AdminActivityController;
 use App\Http\Controllers\admin\AdminFavoredSceneryController;
+use App\Http\Controllers\admin\AdminCommissionController;
 
 use App\Http\Controllers\guider\GuiderController;
 use App\Http\Controllers\guider\GuiderPackageController;
@@ -122,6 +123,16 @@ Route::group(['middleware' => ['protectedPage']], function () {
     Route::get('/admin/job-edit/{id?}', [AdminJobController::class, 'job_edit'])->name('admin_jobs_edit');
     Route::get('/admin/job-delete/{job?}', [AdminJobController::class, 'job_delete'])->name('admin_jobs_delete');
     Route::post('/admin/job-add-edit/{job?}', [AdminJobController::class, 'job_add_edit_data'])->name('admin_jobs_add_edit');
+
+    /**Commission Routes */
+    Route::get('/admin/commission-edit', [AdminCommissionController::class, 'commission_edit'])->name('admin_commission_edit');
+    Route::post('/admin/commission-edit/{commission}', [AdminCommissionController::class, 'commission_add_edit_data'])->name('admin_commission_add_edit_data');
+
+    /**Guider Payments Routes */
+    Route::get('/admin/guider-payment-list', [AdminGuiderController::class, 'guider_payment_list'])->name('admin_guider_payment_list');
+    Route::post('/admin/guider-edit/{guider}', [AdminGuiderController::class, 'guider_payment_add_edit_data'])->name('admin_guider_payment_add_edit_data');
+    Route::post('/admin/get-guider-details', [AdminGuiderController::class, 'get_journey_details'])->name('admin_guider_payment_get_journey_details');
+    Route::post('/admin/guider-payout', [AdminGuiderController::class, 'pay_with_paypal'])->name('admin_guider_pay_with_paypal');
 
     /**Activity Routes */
     Route::get('/admin/activity-list', [AdminActivityController::class, 'all_activity'])->name('admin_all_activity');
@@ -244,7 +255,7 @@ Route::group(['middleware' => ['guiderRoleMiddleware']], function () {
 Route::group(['middleware' => ['UiAuthMiddleware']], function () {
 
     //STRIPE
-    Route::get('vacationer-stripe-form/{package?}', [VacationerPackageController::class, 'stripe_form'])->name('Vacationer_stripe_form');
+    Route::get('vacationer-paypal-payment/{package?}', [VacationerPackageController::class, 'stripe_form'])->name('Vacationer_stripe_form');
     Route::post('vacationer-meta-form/{package?}', [VacationerPackageController::class, 'meta_form'])->name('Vacationer_meta_form');
     Route::post('/package-payee', [VacationerPackageController::class, 'event_stripe'])->name('package_stripe_post');
     Route::get('/pay-with/{package?}', [VacationerPackageController::class, 'pay_with_meta'])->name('UI_pay_with_meta');
